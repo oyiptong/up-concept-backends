@@ -6,6 +6,7 @@
 
 import os
 import json
+import logging
 import tornado.ioloop
 import tornado.httpserver
 import tornado.options
@@ -51,7 +52,7 @@ def main():
 
     application = up.imageserver.UpImageserverAPI(sys_settings if sys_settings else settings, routes)
     http_server = tornado.httpserver.HTTPServer(application)
-    http_server.bind(port=settings.server.get('port', 4322), address=settings.server.get('address', '127.0.0.1'))
+    http_server.bind(port=settings.server.get('port', 5500), address=settings.server.get('address', '127.0.0.1'))
 
     if settings.application.get('debug', False):
         num_workers = 1
@@ -59,6 +60,7 @@ def main():
         num_workers = settings.server.get('num_workers', 0)
     http_server.start(num_workers)
 
+    logging.info("starting server listening on port: {0}".format(settings.server.get('port', 5500)))
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":

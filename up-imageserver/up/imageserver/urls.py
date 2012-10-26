@@ -4,9 +4,11 @@
 
 import os
 from up.imageserver.handlers import test
+from up.imageserver.handlers import fetch
 from up.imageserver.utils.security import CEFRequestHandler
 
 routes = (
         (r'/imageserver/?', test.TestRequestHandler),
+        (r'/imageserver/fetch', fetch.FetchRequestHandler),
         (r'.*', CEFRequestHandler)
 )
