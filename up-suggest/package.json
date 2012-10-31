@@ -1,0 +1,12 @@
+{
+    "name": "up-suggest",
+    "version": "0.1.0",
+    "author": "Olivier Yiptong <oyiptong@mozilla.com>",
+    "description": "api server that gives url recommendations based on a query of interests",
+    "contributors": [],
+    "dependencies" : {
+    },
+    "engines": {
+        "node": ">=0.8.14"
+    }
+}
