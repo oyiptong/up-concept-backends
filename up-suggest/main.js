@@ -15,7 +15,7 @@ function startServer(route) {
             cluster.fork();
         });
 
-        cluster.on('listening', function(worker) {
+        cluster.on('online', function(worker) {
             console.log('worker with PID: ' + worker.process.pid + ' started');
         });
 

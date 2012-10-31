@@ -1,9 +1,11 @@
 var url = require('url');
-var handlers = require('./handlers.js');
+var testHandlers = require('./handlers/test.js');
+var errorHandlers = require('./handlers/errors.js');
+var singleInterestHandlers = require('./handlers/singleInterest.js');
 
 var routes = {
-    '/': handlers.test,
-    '/suggest/v1/interest': handlers.v1_singleInterest
+    '/': testHandlers.test,
+    '/suggest/v1/interest': singleInterestHandlers.suggest
 }
 
 function route(request, response) {
@@ -12,7 +14,7 @@ function route(request, response) {
         routes[pathname](request, response);
     } else {
         // catch all
-        handlers.notFound(request, response);
+        errorHandlers.notFound(request, response);
     }
 }
 
