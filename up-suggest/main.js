@@ -5,7 +5,7 @@ var util = require('util');
 
 var router = require("./router");
 
-const serverPort = 5500;
+const serverPort = process.env.VCAP_APP_PORT || 5500;
 const numCPUs = os.cpus().length;
 
 function startServer(route) {
