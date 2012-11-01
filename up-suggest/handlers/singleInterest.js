@@ -1,4 +1,5 @@
 var handlerUtil = require('./utils.js');
+var Car = require('../models/car').Car;
 
 function suggest(request, response) {
     var interest = request.headers.interest;

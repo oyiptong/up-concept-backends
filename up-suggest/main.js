@@ -1,12 +1,12 @@
 var http = require('http');
 var cluster = require('cluster');
-var os = require('os');
 var util = require('util');
 
+var settings = require("./settings");
 var router = require("./router");
 
-const serverPort = process.env.VCAP_APP_PORT || 5500;
-const numCPUs = os.cpus().length;
+const numCPUs = settings.server.numCPUs;
+const serverPort = settings.server.serverPort;
 
 function startServer(route) {
     if(cluster.isMaster) {
