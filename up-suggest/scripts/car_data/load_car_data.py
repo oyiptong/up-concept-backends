@@ -4,7 +4,7 @@ import re
 import json
 import pymongo
 
-path_pattern = re.compile(r'[^A-Za-z0-9/_-]+')
+path_pattern = re.compile(r'[^A-Za-z0-9\./_-]+')
 
 def get_model_types(car_rules_filename):
     model_types = {}

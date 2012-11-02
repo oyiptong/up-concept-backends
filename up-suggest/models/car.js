@@ -4,9 +4,9 @@ var db = mongoose.connect(settings.mongoUrl);
 
 var carSchema = new mongoose.Schema({
     "model": {"type": String, "index": {"unique": true}},
-    "tags": {"type": Array, "index": true},
+    "tags": [String],
     "image_path": String
-});
+}, {"collection": "car"});
 
 var Car = db.model('car', carSchema);
 exports.Car = Car;

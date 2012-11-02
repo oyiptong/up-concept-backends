@@ -19,7 +19,7 @@ if(process.env.VCAP_SERVICES) {
         "username":"",
         "password":"",
         "name":"",
-        "db":"up-suggest"
+        "db":"up_suggest"
     }
 }
 var generate_mongo_url = function(obj) {
