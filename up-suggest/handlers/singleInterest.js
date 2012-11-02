@@ -13,7 +13,7 @@ function suggest(request, response) {
     var tokens = interest.split('/');
     var url_parts = url.parse(request.url, true);
     var limit = url_parts.query.limit || 20;
-
+    var pretty = url_parts.query.pretty == 'true';
 
     Car.find({'tags': {'$all': tokens}}).limit(limit).exec(function(err, cars) {
         var output = [];
@@ -24,7 +24,7 @@ function suggest(request, response) {
                 "meta": car.tags
             });
         });
-        handlerUtil.respond(response, 200, {"d": output});
+        handlerUtil.respond(response, 200, {"d": output}, pretty);
     });
 }
 
