@@ -18,12 +18,14 @@ function suggest(request, response) {
     Car.find({'tags': {'$all': tokens}}).limit(limit).exec(function(err, cars) {
         var output = [];
 
-        cars.forEach(function(car){
+        for (var i=0; i < cars.length; i++) {
+            var car = cars[i];
             output.push({
                 "img": settings.app.imageUrlPrefix + car.image_path,
                 "meta": car.tags
             });
-        });
+        }
+
         handlerUtil.respond(response, 200, {"d": output}, pretty);
     });
 }
