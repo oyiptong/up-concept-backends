@@ -5,15 +5,17 @@ var url = require('url');
 
 function suggest(request, response) {
 
-    var interest = request.headers.interest;
-    if (interest === null || interest.length === 0) {
-        handlerUtil.respond(response, 400, {"err": "interest not specified"});
-    }
-
-    var tokens = interest.split('/');
     var url_parts = url.parse(request.url, true);
     var limit = url_parts.query.limit || 20;
     var pretty = url_parts.query.pretty == 'true';
+
+    var interest = request.headers.interest;
+    if (interest == null || interest.length === 0) {
+        handlerUtil.respond(response, 400, {"err": "interest not specified"}, pretty);
+        return;
+    }
+
+    var tokens = interest.split('/');
 
     Car.find({'tags': {'$all': tokens}}).limit(limit).exec(function(err, cars) {
         var output = [];
