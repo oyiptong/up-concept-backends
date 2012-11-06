@@ -2,6 +2,7 @@
 import time
 import re
 import json
+
 import pymongo
 
 path_pattern = re.compile(r'[^A-Za-z0-9\./_-]+')
@@ -47,12 +48,35 @@ def get_car_models(car_image_filename, model_types):
 
 def main():
     start = time.time()
+
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option("-U", "--username", dest="username", help="mongodb username", type="string")
+    parser.add_option("-P", "--password", dest="password", help="mongodb password", type="string")
+    parser.add_option("-H", "--hostname", dest="hostname", help="mongodb hostname", type="string", default="localhost")
+    parser.add_option("-D", "--database", dest="database", help="mongodb database", type="string", default="up_suggest")
+    parser.add_option("-p", "--port", dest="port", help="mongodb port", type="int", default=27017)
+    parser.add_option("-c", "--clean", dest="clean", help="purge collection before saving", action="store_true", default=False)
+    (options, args) = parser.parse_args()
+
     model_types = get_model_types('car_rules_english.json')
     car_objects = get_car_models('carimagefiles.txt', model_types)
 
-    conn = pymongo.Connection()
-    db = conn['up_suggest']
+    if options.username and options.password:
+        credentials = "{0}:{1}@".format(options.username, options.password)
+    else:
+        credentials = ""
+
+    mongo_url = "mongodb://{0}{1}:{2}/{3}".format(credentials, options.hostname, options.port, options.database)
+
+    conn = pymongo.Connection(mongo_url)
+    db = conn[options.database]
+
     cars = db['car']
+
+    if options.clean:
+        print "purging collection"
+        cars.remove({}, safe=True)
 
     cars.ensure_index('model', unique=True)
     cars.ensure_index('tags')
@@ -64,7 +88,7 @@ def main():
                 'tags': list(meta['tags']),
                 'image_path': meta['image_path']
         }
-        cars.update({'model': model}, car, True)
+        cars.update({'model': model}, car, True, safe=True)
         objs_saved += 1
 
     finish = time.time()

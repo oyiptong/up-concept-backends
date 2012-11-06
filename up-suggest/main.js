@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var http = require('http');
 var cluster = require('cluster');
 var util = require('util');
